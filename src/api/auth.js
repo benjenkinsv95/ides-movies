@@ -1,8 +1,14 @@
+// import the api for our url, similar to the browser template
 import apiUrl from '../apiConfig'
+// import axios so we can make HTTP requests
 import axios from 'axios'
 
+// the credentials parameter has the same format as `this.state` in SignUp.js
+// we want to export multiple things from this file, so we are using a "named export"
+// instead of a "default export"
 export const signUp = credentials => {
   return axios({
+    // the method and url will both be the same as the jquery-ajax-token-auth lesson
     method: 'POST',
     url: apiUrl + '/sign-up',
     data: {
@@ -17,10 +23,12 @@ export const signUp = credentials => {
 
 export const signIn = credentials => {
   return axios({
+    // signIn has the same url and method as the jquery-ajax-token-auth lesson
     url: apiUrl + '/sign-in',
     method: 'POST',
     data: {
       credentials: {
+        // the same data as `signUp` but no `passwordConfirmation`
         email: credentials.email,
         password: credentials.password
       }
