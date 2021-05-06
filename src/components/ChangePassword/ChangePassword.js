@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
+// import the changePassword axios request
 import { changePassword } from '../../api/auth'
 import messages from '../AutoDismissAlert/messages'
 
@@ -11,6 +12,7 @@ class ChangePassword extends Component {
   constructor (props) {
     super(props)
 
+    // keep track of the current password (oldPassword) and the new password
     this.state = {
       oldPassword: '',
       newPassword: ''
@@ -24,8 +26,12 @@ class ChangePassword extends Component {
   onChangePassword = event => {
     event.preventDefault()
 
+    // destructure the same props from SignUp, but instead of setUser we are destructuring
+    // a user prop. so we have access to their token
     const { msgAlert, history, user } = this.props
 
+    // make an axios request to change the password. pass it the old and new passwords
+    // also pass the user for their token
     changePassword(this.state, user)
       .then(() => msgAlert({
         heading: 'Change Password Success',
@@ -50,7 +56,10 @@ class ChangePassword extends Component {
       <div className="row">
         <div className="col-sm-10 col-md-8 mx-auto mt-5">
           <h3>Change Password</h3>
+          {/* This form uses onChangePassword when the form is submitted */}
           <Form onSubmit={this.onChangePassword}>
+            {/* Similar to the password in the SignUp component but for the oldPassword
+                and newPassword state */}
             <Form.Group controlId="oldPassword">
               <Form.Label>Old password</Form.Label>
               <Form.Control
@@ -75,6 +84,8 @@ class ChangePassword extends Component {
             </Form.Group>
             <Button
               variant="primary"
+              // className='text-white'
+              // variant="secondary"
               type="submit"
             >
               Submit

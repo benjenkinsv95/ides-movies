@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
+// only import signIn
 import { signIn } from '../../api/auth'
 import messages from '../AutoDismissAlert/messages'
 
@@ -11,6 +12,7 @@ class SignIn extends Component {
   constructor (props) {
     super(props)
 
+    // we don't need to keep track of the password confirmation
     this.state = {
       email: '',
       password: ''
