@@ -18,6 +18,9 @@ import SignIn from './components/SignIn/SignIn'
 import SignOut from './components/SignOut/SignOut'
 import ChangePassword from './components/ChangePassword/ChangePassword'
 
+// our movie components
+import MovieIndex from './components/MovieIndex/MovieIndex.js'
+
 class App extends Component {
   constructor (props) {
     super(props)
@@ -79,7 +82,9 @@ class App extends Component {
     return (
       // We want to render multiple elements, so we wrap them in a Fragment
       <Fragment>
-        {/* This is our navigation bar at the top of the page. */}
+        {/* This is our navigation bar at the top of the page.
+            We pass down the `user` so we can show their email address and show
+            different links if they are signed in or not. */}
         <Header user={user} />
         {/* Turn each message alert, into an AutoDismissAlert component. To show
             the user a message */}
@@ -94,6 +99,11 @@ class App extends Component {
           />
         ))}
         <main className="container">
+          {/* Demo: How to add a home page */}
+          <Route path='/' exact render={() => (
+            <h1>Movies!</h1>
+          )} />
+
           {/* We want the SignUp and SignIn components to be visible when the user
               is not logged in. So we use a normal Route */}
           <Route path='/sign-up' render={() => (
@@ -107,6 +117,8 @@ class App extends Component {
           {/* When using an AuthenticatedRoute we **must** make sure to pass it the `user`.
               If the `user` is null, the AuthenticatRoute, will send us to the home page. */}
           <AuthenticatedRoute user={user} path='/sign-out' render={() => (
+            // We pass down the `clearUser` function, so that the user is reset after signing out
+            // we pass down the user, for their token when making our sign out request
             <SignOut msgAlert={this.msgAlert} clearUser={this.clearUser} user={user} />
           )} />
           {/* We use an AuthenticatedRoute so the user has to be signed in to change
@@ -115,6 +127,9 @@ class App extends Component {
             /* we pass down the `user` prop, so we have the user's `token` when
               making our change password request */
             <ChangePassword msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} path='/movies' render={() => (
+            <MovieIndex msgAlert={this.msgAlert} user={user} />
           )} />
         </main>
       </Fragment>

@@ -36,8 +36,10 @@ export const signIn = credentials => {
   })
 }
 
+// signOut needs a user for their token
 export const signOut = user => {
   return axios({
+    // the same url and method from the jquery-ajax-token-auth lesson
     url: apiUrl + '/sign-out',
     method: 'DELETE',
     headers: {
