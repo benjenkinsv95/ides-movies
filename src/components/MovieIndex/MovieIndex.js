@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 
 import { Link } from 'react-router-dom'
 
+import { movieIndex } from '../../api/movies'
+
+import Spinner from 'react-bootstrap/Spinner'
+
 class MovieIndex extends Component {
   constructor (props) {
     // this is a best practice
@@ -14,12 +18,37 @@ class MovieIndex extends Component {
     }
   }
 
+  // do this whenever MovieIndex is first shown on the page (mounted)
+  componentDidMount () {
+    const { user, msgAlert } = this.props
+
+    // fetch all of the movies
+    movieIndex(user)
+      // set the movies state, to be the movies we got back from the response's data
+      .then(res => this.setState({ movies: res.data.movies }))
+      .then(() => msgAlert({
+        heading: 'Successfully Got All Movies',
+        message: 'Movies are now being shown.',
+        variant: 'success'
+      }))
+      .catch(error => msgAlert({
+        heading: 'Failed To Get All Movies',
+        message: 'Couldnt Get Movies Due to Error: ' + error.message,
+        variant: 'failure'
+      }))
+  }
+
   render () {
     const { movies } = this.state
 
     // if we haven't loaded any movies
     if (!movies) {
-      return 'Loading'
+      // show a loading spinner
+      return (
+        <Spinner animation="border" role="status">
+          <span className="sr-only">Loading...</span>
+        </Spinner>
+      )
     }
 
     // turn each movie into a link to that movie

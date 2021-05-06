@@ -128,7 +128,7 @@ class App extends Component {
               making our change password request */
             <ChangePassword msgAlert={this.msgAlert} user={user} />
           )} />
-          <AuthenticatedRoute user={user} path='/movies' render={() => (
+          <AuthenticatedRoute user={user} exact path='/movies' render={() => (
             <MovieIndex msgAlert={this.msgAlert} user={user} />
           )} />
         </main>
